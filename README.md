@@ -1,30 +1,31 @@
 # Sawang Jumpbox Automation (Portable Version)
 
-Sebuah perangkat otomasi mini jumpbox berbasis Bash Script yang didesain untuk mengelola banyak target server SSH secara portable.
+Sebuah perangkat otomasi mini jumpbox berbasis Bash Script untuk mengelola banyak target server SSH secara portable.
 
 Project ini mengombinasikan:
 
 * GPG Key Ring (Password Pooling)
 * Failover Authentication otomatis
-* Robot penyuntik kredensial menggunakan `sshpass`
-* Auto-Passphrase (0-click) tanpa perlu memasukkan PIN secara manual
+* Integrasi `sshpass` untuk login otomatis
+* Auto-Passphrase Mechanism
+* Database server berbasis file teks sederhana
 
 ---
 
-## ¿ Struktur Repositori
+## ğŸ“ Struktur Repositori
 
 ```text
 sawang-jumpbox/
-¿¿¿ ssh-server.sh        # Script otomasi pencari server & auto-login
-¿¿¿ newpass.sh           # Menu interaktif tambah/hapus kunci GPG
-¿¿¿ list-server.txt      # Database IP, user, dan port server target
-¿¿¿ README.md            # Dokumentasi utama
-¿¿¿ pass/                # Vault password terenkripsi (.gpg)
+â”œâ”€â”€ ssh-server.sh        # Script otomasi pencari server & auto-login
+â”œâ”€â”€ newpass.sh           # Menu interaktif tambah/hapus password vault
+â”œâ”€â”€ list-server.txt      # Database server target
+â”œâ”€â”€ README.md            # Dokumentasi utama
+â””â”€â”€ pass/                # Vault password terenkripsi (.gpg)
 ```
 
 ---
 
-## ¿ Persyaratan Sistem
+## ğŸ“‹ Persyaratan Sistem
 
 ### Sistem Operasi yang Didukung
 
@@ -35,10 +36,10 @@ sawang-jumpbox/
 * Rocky Linux
 * AlmaLinux
 * Oracle Linux
-* MobaXterm (Windows)
+* MobaXterm
 * Cygwin
 * Git Bash
-* Termux (Android)
+* Termux
 
 ### Dependensi
 
@@ -50,7 +51,7 @@ which bash ssh gpg sshpass
 
 ---
 
-## ¿ Instalasi Dependensi
+## ğŸ”§ Instalasi Dependensi
 
 ### Ubuntu / Debian
 
@@ -59,7 +60,7 @@ sudo apt update
 sudo apt install bash openssh-client gnupg2 sshpass -y
 ```
 
-### RHEL / CentOS / Rocky / Oracle Linux
+### RHEL / CentOS / Rocky Linux
 
 ```bash
 sudo yum install epel-release -y
@@ -72,17 +73,18 @@ sudo yum install bash openssh-clients gnupg2 sshpass -y
 apt install gnupg sshpass
 ```
 
-### Android (Termux)
+### Termux
 
 ```bash
+pkg update
 pkg install openssh gnupg sshpass -y
 ```
 
 ---
 
-# ¿ Instalasi
+## ğŸš€ Instalasi
 
-## 1. Clone Repository
+### Clone Repository
 
 ```bash
 git clone https://github.com/sawangmyid/sawang-jumpbox.git
@@ -94,7 +96,7 @@ chmod +x newpass.sh
 
 ---
 
-## 2. Setup Shortcut Terminal
+## âš™ï¸ Setup Shortcut Terminal
 
 Edit file `.bashrc`:
 
@@ -102,14 +104,14 @@ Edit file `.bashrc`:
 nano ~/.bashrc
 ```
 
-Tambahkan fungsi berikut di bagian paling bawah:
+Tambahkan fungsi berikut:
 
 ```bash
 akses() {
     local SCRIPT_PATH=$(find "$HOME" -name "ssh-server.sh" -print -quit 2>/dev/null)
 
     if [ -z "$SCRIPT_PATH" ]; then
-        echo "Error: File ssh-server.sh tidak ditemukan di dalam $HOME!"
+        echo "Error: File ssh-server.sh tidak ditemukan!"
         return 1
     fi
 
@@ -125,7 +127,7 @@ source ~/.bashrc
 
 ---
 
-## 3. Konfigurasi Database Server
+## ğŸ—„ï¸ Konfigurasi Database Server
 
 Edit file `list-server.txt`.
 
@@ -145,7 +147,7 @@ db001,admin@172.16.1.100,22
 
 ---
 
-## 4. Manajemen Password Vault
+## ğŸ” Manajemen Password Vault
 
 Jalankan:
 
@@ -153,80 +155,66 @@ Jalankan:
 ./newpass.sh
 ```
 
-Menu ini digunakan untuk:
+Fitur:
 
-* Menambahkan password ke vault GPG
-* Menghapus password dari vault GPG
-* Mengelola password pool yang digunakan saat login otomatis
+* Menambah password ke vault
+* Menghapus password dari vault
+* Mengelola password pool
+* Menampilkan daftar password yang tersedia
 
 ---
 
-## 5. Login ke Server
+## ğŸ–¥ï¸ Login ke Server
 
-Contoh penggunaan:
+Contoh:
 
 ```bash
 akses app132
 ```
 
-Script akan:
+Proses yang dilakukan:
 
-1. Mencari alias pada `list-server.txt`
-2. Mengambil password dari password pool
-3. Melakukan autentikasi otomatis menggunakan `sshpass`
+1. Membaca alias dari `list-server.txt`
+2. Mengambil password dari vault GPG
+3. Melakukan autentikasi menggunakan `sshpass`
 4. Membuka sesi SSH ke server tujuan
 
 ---
 
-# ¿ Keamanan
+## ğŸ”’ Keamanan
 
-## Auto-Passphrase Mechanism
-
-Vault GPG menggunakan mekanisme auto-passphrase sehingga proses enkripsi dan dekripsi dapat berjalan tanpa interaksi pengguna.
-
-## Rekomendasi Hak Akses
-
-Batasi akses file script utama:
+Disarankan membatasi hak akses file:
 
 ```bash
 chmod 700 ssh-server.sh
 chmod 700 newpass.sh
-```
-
-Batasi juga akses direktori password:
-
-```bash
 chmod 700 pass
 ```
 
 ---
 
-# ¿¿ Disclaimer
+## âš ï¸ Disclaimer
 
-Project ini disediakan **"AS IS"** tanpa jaminan apa pun.
+Project ini disediakan **AS IS** tanpa jaminan apa pun.
 
 Pengguna bertanggung jawab penuh atas:
 
-* Keamanan server lokal
-* Pengelolaan hak akses file
-* Penyimpanan kredensial
+* Pengelolaan kredensial
+* Keamanan sistem lokal
+* Hak akses file dan direktori
 * Risiko kebocoran data akibat kesalahan konfigurasi
-
-Gunakan dengan bijak dan sesuai kebijakan keamanan organisasi masing-masing.
 
 ---
 
-# ¿¿¿ Pengembang
+## ğŸ‘¨â€ğŸ’» Pengembang
 
 **Sawang**
 
-Website:
-
-https://sawang.my.id
+Website: https://sawang.my.id
 
 ---
 
-# ¿ Lisensi
+## ğŸ“„ Lisensi
 
 Distributed under the MIT License.
 
