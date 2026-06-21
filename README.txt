@@ -86,8 +86,6 @@ Contoh Isi File:
 app132,sawang@192.168.58.132,22
 app10,root@192.168.1.10,2323
 
-*Catatan: Baris yang diawali tanda pagar (#) otomatis diabaikan oleh script.
-
 -------------------------------------------------------------------------------
 [F] CARA MENGGUNAKAN MENU MANAGEMENT PASSWORD (newpass.sh)
 -------------------------------------------------------------------------------

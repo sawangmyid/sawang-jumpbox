@@ -33,63 +33,56 @@ sawang-jumpbox/
 Pastikan paket berikut tersedia dengan mengecek perintah $ which bash ssh gpg sshpass. Jika belum ada, lakukan instalasi sesuai platform:
 
     Ubuntu / Debian / Servermu:
+    Bash
 
-Bash
-
-  sudo apt update && sudo apt install bash openssh-client gnupg2 sshpass -y
+    sudo apt update && sudo apt install bash openssh-client gnupg2 sshpass -y
 
     RHEL / CentOS / Rocky / Oracle Linux:
+    Bash
 
-Bash
-
-  sudo yum install epel-release -y && sudo yum install bash openssh-clients gnupg2 sshpass -y
+    sudo yum install epel-release -y && sudo yum install bash openssh-clients gnupg2 sshpass -y
 
     MobaXterm (Windows):
+    Bash
 
-Bash
-
-  apt install gnupg sshpass
+    apt install gnupg sshpass
 
     Android (Termux):
+    Bash
 
-Bash
-
-  pkg install openssh gnupg sshpass -y
+    pkg install openssh gnupg sshpass -y
 
 🚀 Panduan Instalasi & Penggunaan
 Langkah 1: Clone Repositori
 Bash
 
-git clone [https://github.com/username-kamu/sawang-jumpbox.git](https://github.com/username-kamu/sawang-jumpbox.git)
+git clone [https://github.com/sawangmyid/sawang-jumpbox.git](https://github.com/sawangmyid/sawang-jumpbox.git)
 cd sawang-jumpbox
 chmod +x ssh-server.sh newpass.sh
 
 Langkah 2: Setup Shortcut Terminal (akses)
 
     Buka file .bashrc:
+    Bash
 
-Bash
-
-   nano ~/.bashrc
+    nano ~/.bashrc
 
     Tempelkan baris kode berikut di posisi paling bawah:
+    Bash
 
-Bash
-
-   akses() {
-       local SCRIPT_PATH=$(find $HOME -name "ssh-server.sh" -print -quit 2>/dev/null)
-       if [ -z "$SCRIPT_PATH" ]; then
-           echo "Error: File ssh-server.sh tidak ditemukan di dalam $HOME!"
-           return 1
-       fi
-       "$SCRIPT_PATH" "$1"
-   }
+    akses() {
+        local SCRIPT_PATH=$(find $HOME -name "ssh-server.sh" -print -quit 2>/dev/null)
+        if [ -z "$SCRIPT_PATH" ]; then
+            echo "Error: File ssh-server.sh tidak ditemukan di dalam $HOME!"
+            return 1
+        fi
+        "$SCRIPT_PATH" "$1"
+    }
 
     Muat ulang konfigurasi terminal:
+    Bash
 
-Bash
-
-   source ~/.bashrc
+    source ~/.bashrc
 
 Langkah 3: Konfigurasi Database Server (list-server.txt)
 
